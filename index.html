@@ -2,146 +2,314 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>MATIK SHOP</title>
-
+  <!-- Скрипт Telegram WebApp (обязателен для работы внутри ТГ) -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
+    :root {
+      --bg: #0d0d0d;
+      --card-bg: #161616;
+      --border: #262626;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent: #ffffff;
+      --accent-text: #000000;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: #0b0b0b;
-      color: #fff;
-      padding: 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-bottom: 90px;
     }
 
-    .shop {
-      max-width: 520px;
-      margin: auto;
-    }
-
+    /* Шапка магазина */
     .header {
       text-align: center;
-      padding: 30px 10px;
-      border-bottom: 1px solid #333;
+      padding: 24px 0 16px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .header h1 {
-      font-size: 30px;
-      letter-spacing: 2px;
+    .brand-title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
 
-    .header p {
-      color: #aaa;
-      margin-top: 10px;
+    .brand-subtitle {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
     }
 
-    .section-title {
-      margin: 25px 0 12px;
-      font-size: 20px;
+    /* Секции */
+    .section-header {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin: 22px 0 12px;
     }
 
-    .card {
-      background: #161616;
-      border: 1px solid #333;
+    /* Карточки товаров */
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 15px;
+      padding: 18px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      color: #bbb;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-
-    .price {
+    .product-title {
       font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 15px;
+      font-weight: 700;
     }
 
-    button, a {
-      display: block;
-      width: 100%;
-      border: 0;
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-      text-decoration: none;
+    .product-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .product-price {
       font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-buy {
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
       cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-buy:active {
+      opacity: 0.8;
+    }
+
+    /* Полезные ссылки */
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       margin-top: 10px;
     }
 
-    .main-button {
+    .nav-btn {
+      background: #141414;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-align: center;
+      padding: 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Модальное окно заказа */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: #141414;
+      border-top: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      padding: 24px;
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .modal-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .input-field {
+      width: 100%;
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-confirm {
+      flex: 1;
       background: #fff;
       color: #000;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
     }
 
-    .secondary-button {
-      background: #222;
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--border);
       color: #fff;
-      border: 1px solid #444;
-    }
-
-    .footer {
-      text-align: center;
-      color: #777;
-      margin-top: 30px;
-      font-size: 13px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
-
 <body>
-  <main class="shop">
-    <header class="header">
-      <h1>MATIK SHOP</h1>
-      <p>Материалы и услуги для эдиторов</p>
-    </header>
 
-    <h2 class="section-title">Доступно сейчас</h2>
+  <header class="header">
+    <h1 class="brand-title">MATIK SHOP</h1>
+    <p class="brand-subtitle">РЕСУРСЫ & УСЛУГИ ДЛЯ ЭДИТОРОВ</p>
+  </header>
 
-    <section class="card">
-      <h2>Приватный канал MATIK.ZXC</h2>
+  <div class="section-header">Каталог товаров</div>
 
-      <p>
-        Полезные материалы для эдиторов: исходники, футажи, оверлеи,
-        шейки, блюры, цветокоррекции, туториалы и многое другое.
-      </p>
-
-      <div class="price">400 ₽ / 400 Telegram Stars</div>
-
-      <a class="main-button"
-         href="https://t.me/matikzxc?text=Привет!%20Хочу%20купить%20доступ%20в%20приват">
-        Купить через личные сообщения
-      </a>
-    </section>
-
-    <h2 class="section-title">Полезные ссылки</h2>
-
-    <a class="secondary-button" href="https://t.me/reviewsmatikzxc
-
-      Отзывы
-    </a>
-
-    <a class="secondary-button" href="https://t.me/matikzxc">
-      Поддержка
-    </a>
-
-    <div class="footer">
-      MATIK SHOP
+  <!-- КАРТОЧКА: ПРИВАТ -->
+  <div class="product-card">
+    <div class="product-title">Приватный канал MATIK.ZXC</div>
+    <div class="product-desc">
+      Полная база для эдиторов: актуальный софт (CapCut Pro, TikTok Mod), паки шейков, цветокоров, футажей, качественные нарезки (фильмы, авто, аниме) способы залива без потери качества и многое другое!
     </div>
-  </main>
+    <div class="product-footer">
+      <div class="product-price">400 ₽ / 400 ⭐️</div>
+      <button class="btn-buy" onclick="openOrder('Приватный канал MATIK.ZXC', '400 ₽ / 400 ⭐️')">Купить</button>
+    </div>
+  </div>
+
+  <!-- КАРТОЧКА: WATERMARK -->
+  <div class="product-card">
+    <div class="product-title">Готовый Watermark (Водяной знак)</div>
+    <div class="product-desc">
+      Индивидуальный качественный водяной знак под ваш никнейм для защиты роликов и узнаваемости в TikTok/Shorts.
+    </div>
+    <div class="product-footer">
+      <div class="product-price">От 150 ₽ / 150 ⭐️</div>
+      <button class="btn-buy" onclick="openOrder('Watermark под заказ', 'От 150 ₽ / 150 ⭐️')">Заказать</button>
+    </div>
+  </div>
+
+  <!-- КАРТОЧКА: ОЗВУЧКА -->
+  <div class="product-card">
+    <div class="product-title">Озвучка для видео</div>
+    <div class="product-desc">
+      Качественный дикторский голос под стилистику вашего эдита или ролика.
+    </div>
+    <div class="product-footer">
+      <div class="product-price">100 ₽ / 100 ⭐️</div>
+      <button class="btn-buy" onclick="openOrder('Озвучка для эдита', '100 ₽ / 100 ⭐️')">Заказать</button>
+    </div>
+  </div>
+
+  <div class="section-header">Навигация</div>
+  <div class="nav-links">
+    <a class="nav-btn" href="https://t.me/biomatikzxc">📢 Канал с новостями и отзывами</a>
+    <a class="nav-btn" href="https://t.me/matikmngr">💬 Связь с менеджером (@matikmngr)</a>
+  </div>
+
+  <!-- Всплывающее окно заказа -->
+  <div class="modal" id="orderModal">
+    <div class="modal-content">
+      <div class="modal-title" id="modalItemTitle">Оформление заказа</div>
+      <div class="modal-desc" id="modalItemPrice"></div>
+      
+      <input type="text" id="userComment" class="input-field" placeholder="Ваш никнейм или пожелание к заказу...">
+
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeOrder()">Отмена</button>
+        <button class="btn-confirm" onclick="submitOrder()">Подтвердить заказ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentItem = '';
+    let currentPrice = '';
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      tg.ready();
+      tg.expand(); // Разворачиваем шторку на максимум
+    }
+
+    function openOrder(item, price) {
+      currentItem = item;
+      currentPrice = price;
+      document.getElementById('modalItemTitle').innerText = item;
+      document.getElementById('modalItemPrice').innerText = 'Цена: ' + price;
+      document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeOrder() {
+      document.getElementById('orderModal').style.display = 'none';
+      document.getElementById('userComment').value = '';
+    }
+
+    function submitOrder() {
+      const comment = document.getElementById('userComment').value || 'Без комментария';
+      
+      // Формируем прямую ссылку на переписку с тобой с уже вписанным заказом
+      const messageText = `Привет! Хочу оформить заказ:\n📦 Товар: ${currentItem}\n💰 Цена: ${currentPrice}\n💬 Пожелание/ник: ${comment}`;
+      const url = `https://t.me/matikzxc?text=${encodeURIComponent(messageText)}`;
+
+      if (tg) {
+        tg.openTelegramLink(url);
+      } else {
+        window.location.href = url;
+      }
+
+      closeOrder();
+    }
+  </script>
 </body>
 </html>
