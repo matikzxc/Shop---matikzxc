@@ -2,314 +2,1510 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>MATIK SHOP</title>
-  <!-- Скрипт Telegram WebApp (обязателен для работы внутри ТГ) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>MATIKZXC OFFICIAL STORE</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      --bg: #0d0d0d;
-      --card-bg: #161616;
-      --border: #262626;
+      --bg: #050507;
+      --card: rgba(20, 20, 24, 0.78);
+      --border: rgba(255, 255, 255, 0.13);
       --text: #ffffff;
-      --text-muted: #888888;
-      --accent: #ffffff;
-      --accent-text: #000000;
+      --muted: #8e8e93;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     body {
-      background-color: var(--bg);
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.09) 0%, transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
       color: var(--text);
-      padding: 16px;
-      padding-bottom: 90px;
+      padding: 14px 14px 105px 14px;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* Шапка магазина */
-    .header {
-      text-align: center;
-      padding: 24px 0 16px;
-      border-bottom: 1px solid var(--border);
+    #snowCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .brand-title {
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+    .app-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+      margin: 0 auto;
     }
 
-    .brand-subtitle {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 6px;
-      letter-spacing: 0.5px;
-    }
-
-    /* Секции */
-    .section-header {
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      margin: 22px 0 12px;
-    }
-
-    /* Карточки товаров */
-    .product-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .product-title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .product-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .product-footer {
+    .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 6px;
+      margin-bottom: 10px;
     }
 
-    .product-price {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-buy {
-      background: var(--accent);
-      color: var(--accent-text);
-      border: none;
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-size: 14px;
+    .pill {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
       font-weight: 700;
+      color: var(--muted);
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: transform 0.15s ease;
     }
 
-    .btn-buy:active {
-      opacity: 0.8;
+    .pill:active { transform: scale(0.95); }
+    .lang-opt.active { color: #fff; }
+
+    .brand-header {
+      text-align: center;
+      padding: 14px 0 20px;
+      perspective: 600px;
     }
 
-    /* Полезные ссылки */
-    .nav-links {
+    .wave-title {
+      display: inline-block;
+      font-size: 29px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(
+        110deg,
+        #555555 15%,
+        #ffffff 35%,
+        #999999 50%,
+        #ffffff 65%,
+        #555555 85%
+      );
+      background-size: 250% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: waveShimmer 3.2s linear infinite, waveFloat 4s ease-in-out infinite;
+      filter: drop-shadow(0 6px 18px rgba(255, 255, 255, 0.18));
+    }
+
+    .wave-sub {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: var(--muted);
+      margin-top: 5px;
+      text-transform: uppercase;
+      animation: waveFloatSub 4s ease-in-out infinite;
+    }
+
+    @keyframes waveShimmer {
+      0% { background-position: 200% center; }
+      100% { background-position: -50% center; }
+    }
+
+    @keyframes waveFloat {
+      0%, 100% { transform: skewX(-2deg) translateY(0px); }
+      50% { transform: skewX(2deg) translateY(-3px); }
+    }
+
+    @keyframes waveFloatSub {
+      0%, 100% { transform: translateX(-2px); opacity: 0.75; }
+      50% { transform: translateX(2px); opacity: 1; }
+    }
+
+    .screen {
+      display: none;
+      animation: fadeSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .screen.active { display: block; }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .promo-banner {
+      background: linear-gradient(135deg, rgba(34, 34, 40, 0.85), rgba(14, 14, 17, 0.95));
+      border: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .promo-banner:active { transform: scale(0.98); }
+
+    .promo-badge {
+      background: #fff;
+      color: #000;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    .sec-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 18px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sec-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .card-list {
       display: flex;
       flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      padding: 18px;
+      transition: transform 0.16s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .card:active {
+      transform: scale(0.98);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .card h3 {
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #ccc;
+      white-space: nowrap;
+    }
+
+    .card p {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-box {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 7px 13px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: var(--muted);
+      font-size: 11px;
+      margin-right: 6px;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 13px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+    }
+    .btn-white:active { transform: scale(0.95); }
+
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 5px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .sub-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .sub-tab.active {
+      background: #fff;
+      color: #000;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .slot-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .slot-preview {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: #0d0d10;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      padding: 6px;
+    }
+
+    .slot-preview img, .slot-preview video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    audio {
+      width: 100%;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .roulette-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .roulette-viewport {
+      position: relative;
+      width: 100%;
+      height: 92px;
+      background: #09090c;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 14px 0;
+    }
+
+    .roulette-pointer {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: #fff;
+      box-shadow: 0 0 12px #fff;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    .roulette-track {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      will-change: transform;
+    }
+
+    .roulette-item {
+      min-width: 120px;
+      height: 74px;
+      margin: 0 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .roulette-item.rare { border-color: #fff; background: rgba(255, 255, 255, 0.14); }
+    .roulette-item.disc { border-color: rgba(255, 255, 255, 0.45); }
+
+    .odds-info {
+      font-size: 11px;
+      color: var(--muted);
       margin-top: 10px;
+      line-height: 1.4;
+    }
+
+    .policy-link-box {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .policy-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .profile-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .avatar-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #1d1d22;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      overflow: hidden;
+    }
+
+    .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      max-width: 520px;
+      margin: 0 auto;
+      background: rgba(16, 16, 20, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(24px);
+      border-radius: 26px;
+      padding: 6px;
+      display: flex;
+      gap: 6px;
+      z-index: 99;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85);
     }
 
     .nav-btn {
-      background: #141414;
-      border: 1px solid var(--border);
-      color: var(--text);
+      flex: 1;
       text-align: center;
-      padding: 14px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
+      padding: 13px 4px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    /* Модальное окно заказа */
+    .nav-btn.active {
+      background: #ffffff;
+      color: #000000;
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
+    }
+
     .modal {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
       justify-content: center;
       align-items: flex-end;
-      z-index: 100;
     }
 
-    .modal-content {
-      background: #141414;
+    .modal-body {
+      background: #141418;
       border-top: 1px solid var(--border);
-      border-radius: 20px 20px 0 0;
+      border-radius: 26px 26px 0 0;
       padding: 24px;
       width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      max-width: 520px;
+      max-height: 85vh;
+      overflow-y: auto;
+      animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .modal-title {
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .modal-desc {
-      font-size: 13px;
-      color: var(--text-muted);
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
     }
 
     .input-field {
       width: 100%;
-      background: #0a0a0a;
+      background: #09090b;
       border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px 14px;
       color: #fff;
-      padding: 12px 14px;
-      border-radius: 10px;
       font-size: 14px;
+      margin: 14px 0;
       outline: none;
     }
 
-    .modal-buttons {
+    .modal-row {
       display: flex;
       gap: 10px;
-      margin-top: 10px;
     }
 
-    .btn-confirm {
-      flex: 1;
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-cancel {
-      background: transparent;
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
       color: #fff;
-      padding: 14px 18px;
-      border-radius: 10px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-weight: 700;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <header class="header">
-    <h1 class="brand-title">MATIK SHOP</h1>
-    <p class="brand-subtitle">РЕСУРСЫ & УСЛУГИ ДЛЯ ЭДИТОРОВ</p>
-  </header>
+  <canvas id="snowCanvas"></canvas>
 
-  <div class="section-header">Каталог товаров</div>
+  <div class="app-wrap">
+    <div class="top-bar">
+      <div class="pill" onclick="openInfoModal()">INFO</div>
+      <div class="pill" onclick="toggleLang()">
+        <span id="langRu" class="lang-opt active">RU</span> / <span id="langEn" class="lang-opt">EN</span>
+      </div>
+    </div>
 
-  <!-- КАРТОЧКА: ПРИВАТ -->
-  <div class="product-card">
-    <div class="product-title">Приватный канал MATIK.ZXC</div>
-    <div class="product-desc">
-      Полная база для эдиторов: актуальный софт (CapCut Pro, TikTok Mod), паки шейков, цветокоров, футажей, качественные нарезки (фильмы, авто, аниме) способы залива без потери качества и многое другое!
-    </div>
-    <div class="product-footer">
-      <div class="product-price">400 ₽ / 400 ⭐️</div>
-      <button class="btn-buy" onclick="openOrder('Приватный канал MATIK.ZXC', '400 ₽ / 400 ⭐️')">Купить</button>
-    </div>
+    <header class="brand-header">
+      <span class="wave-title">MATIKZXC</span>
+      <span class="wave-sub">OFFICIAL STORE</span>
+    </header>
+
+    <!-- ================= ЭКРАН 1: МАГАЗИН ================= -->
+    <main id="screen-shop" class="screen active">
+      <div class="promo-banner" onclick="openPromoModal()">
+        <div>
+          <h4 id="promoBannerTitle" style="font-size: 15px; font-weight: 800;">Ввести промокод</h4>
+          <p id="promoBannerSub" style="font-size: 11px; color: var(--muted); margin-top: 2px;">Секретные коды из Telegram-канала</p>
+        </div>
+        <div class="promo-badge" id="promoBadge">АКТИВИРОВАТЬ</div>
+      </div>
+
+      <div class="sec-title" data-i18n="catalogTitle">КАТАЛОГ ТОВАРОВ</div>
+
+      <div class="card-list">
+        <!-- Приват -->
+        <div class="card" onclick="openCheckout('private')">
+          <div class="card-top">
+            <h3 data-i18n="privTitle">Приватный канал</h3>
+            <span class="tag">TOP</span>
+          </div>
+          <p data-i18n="privDesc">Полная база для эдиторов: софт, моды, шейки, ЦК, исходники, туториалы без сжатия.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-private">500 ₽ / 500 ⭐️</div>
+            <button class="btn-white" data-i18n="buyBtn">Купить</button>
+          </div>
+        </div>
+
+        <!-- Watermarks -->
+        <div class="card" onclick="openCategory('watermarks')">
+          <div class="card-top">
+            <h3>Watermarks</h3>
+            <span class="tag">2D / 3D</span>
+          </div>
+          <p data-i18n="wmDesc">Готовые и кастомные 2D и 3D водяные знаки с вашим ником. Примеры фото и видео внутри.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-wm-summary">от 150 ₽ / 150 ⭐️</div>
+            <button class="btn-white" data-i18n="openBtn">Открыть</button>
+          </div>
+        </div>
+
+        <!-- Озвучки -->
+        <div class="card" onclick="openCategory('voice')">
+          <div class="card-top">
+            <h3 data-i18n="voiceTitle">Озвучки</h3>
+            <span class="tag">AUDIO</span>
+          </div>
+          <p data-i18n="voiceDesc">Качественная озвучка и обработка под ваш эдит. Примеры звучания внутри.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-voice">100 ₽ / 100 ⭐️</div>
+            <button class="btn-white" data-i18n="openBtn">Открыть</button>
+          </div>
+        </div>
+
+        <!-- Аватарки -->
+        <div class="card" onclick="openCategory('avatars')">
+          <div class="card-top">
+            <h3 data-i18n="avaTitle">Аватарки</h3>
+            <span class="tag">DESIGN</span>
+          </div>
+          <p data-i18n="avaDesc">Стильные аватарки для TikTok и Telegram под ваш стиль. Галерея работ внутри.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-ava-summary">от 150 ₽ / 150 ⭐️</div>
+            <button class="btn-white" data-i18n="openBtn">Открыть</button>
+          </div>
+        </div>
+
+        <!-- CarEdit -->
+        <div class="card" onclick="openCheckout('caredit')">
+          <div class="card-top">
+            <h3>CarEdit</h3>
+            <span class="tag">CUSTOM</span>
+          </div>
+          <p data-i18n="carDesc">Монтаж автомобильного эдита с шейками, саунд-дизайном и цветокоррекцией.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-caredit">300 ₽ / 300 ⭐️</div>
+            <button class="btn-white" data-i18n="orderBtn">Заказать</button>
+          </div>
+        </div>
+
+        <!-- Film Edit -->
+        <div class="card" onclick="openCheckout('filmedit')">
+          <div class="card-top">
+            <h3>Film Edit</h3>
+            <span class="tag">CUSTOM</span>
+          </div>
+          <p data-i18n="filmDesc">Атмосферный эдит по фильму или сериалу с плавными переходами и ЦК.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-filmedit">400 ₽ / 400 ⭐️</div>
+            <button class="btn-white" data-i18n="orderBtn">Заказать</button>
+          </div>
+        </div>
+
+        <!-- Collab -->
+        <div class="card" onclick="openCheckout('collab')">
+          <div class="card-top">
+            <h3 data-i18n="collabTitle">Совместный Collab</h3>
+            <span class="tag">TIKTOK</span>
+          </div>
+          <p data-i18n="collabDesc">Совместный эдит в TikTok со мной с отметкой вашего аккаунта.</p>
+          <div class="card-footer">
+            <div class="price-box" id="price-collab">200 ₽ / 200 ⭐️</div>
+            <button class="btn-white" data-i18n="orderBtn">Заказать</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= ПОДРАЗДЕЛ: WATERMARKS ================= -->
+    <section id="screen-watermarks" class="screen">
+      <div class="back-btn" onclick="switchTab('shop')" data-i18n="backBtn">← Назад в магазин</div>
+      <div class="sub-tabs">
+        <div class="sub-tab active" id="tab2d" onclick="switchWmType('2d')">2D Watermarks (20)</div>
+        <div class="sub-tab" id="tab3d" onclick="switchWmType('3d')">3D Watermarks (20)</div>
+      </div>
+      <div class="slots-grid" id="wmSlotsContainer"></div>
+    </section>
+
+    <!-- ================= ПОДРАЗДЕЛ: ОЗВУЧКИ ================= -->
+    <section id="screen-voice" class="screen">
+      <div class="back-btn" onclick="switchTab('shop')" data-i18n="backBtn">← Назад в магазин</div>
+      <div class="sec-title" data-i18n="voiceSamplesTitle">ПРИМЕРЫ ОЗВУЧЕК (10 СЛОТОВ)</div>
+      <div class="card-list" id="voiceSlotsContainer"></div>
+    </section>
+
+    <!-- ================= ПОДРАЗДЕЛ: АВАТАРКИ ================= -->
+    <section id="screen-avatars" class="screen">
+      <div class="back-btn" onclick="switchTab('shop')" data-i18n="backBtn">← Назад в магазин</div>
+      <div class="sec-title" data-i18n="avaSamplesTitle">ПРИМЕРЫ АВАТАРОК (10 СЛОТОВ)</div>
+      <div class="slots-grid" id="avaSlotsContainer"></div>
+    </section>
+
+    <!-- ================= ЭКРАН 2: РУЛЕТКА / НАГРАДЫ ================= -->
+    <section id="screen-rewards" class="screen">
+      <div class="sec-title" data-i18n="rouletteHeader">ИСПЫТАЙ УДАЧУ</div>
+
+      <div class="roulette-box">
+        <h3 style="font-size: 20px; font-weight: 900;" data-i18n="rouletteTitle">Рулетка призов</h3>
+        <p style="font-size: 12px; color: var(--muted); margin-top: 4px;" id="spinCountLabel">Прокрут #1 — Бесплатно</p>
+
+        <div class="roulette-viewport">
+          <div class="roulette-pointer"></div>
+          <div class="roulette-track" id="rouletteTrack"></div>
+        </div>
+
+        <button class="btn-white" id="spinBtn" style="width: 100%; padding: 14px; font-size: 14px;" onclick="handleSpin()">
+          Крутить бесплатно
+        </button>
+
+        <div class="odds-info" data-i18n="oddsText">
+          Шансы: 10% бесплатный товар (Приват, Озвучка, 3D/2D WD) · 20% скидка (20% или 40%) · 70% пусто
+        </div>
+
+        <div class="policy-link-box">
+          <button class="policy-btn" onclick="openPolicyModal()" data-i18n="policyBtn">
+            Условия и политика рулетки
+          </button>
+        </div>
+      </div>
+
+      <div class="card" onclick="openPromoModal()">
+        <div class="card-top">
+          <h3 data-i18n="promoCardTitle">Промокоды из канала</h3>
+          <span class="tag">BONUS</span>
+        </div>
+        <p data-i18n="promoCardDesc">Следи за постами в @biomatikzxc и активируй ограниченные коды на скидку.</p>
+        <button class="btn-white" data-i18n="enterCodeBtn">Ввести код</button>
+      </div>
+    </section>
+
+    <!-- ================= ЭКРАН 3: ПРОФИЛЬ ================= -->
+    <section id="screen-profile" class="screen">
+      <div class="profile-header">
+        <div class="avatar-circle" id="userAvatar">M</div>
+        <div>
+          <h3 id="userName" style="font-size: 18px; font-weight: 800;">Покупатель</h3>
+          <p id="userHandle" style="font-size: 12px; color: var(--muted);">@username</p>
+          <p id="userDiscountStatus" style="font-size: 11px; color: #fff; margin-top: 4px; font-weight: 700;">Активная скидка: 0%</p>
+        </div>
+      </div>
+
+      <div class="sec-title" data-i18n="wonPrizesTitle">ВЫИГРАННЫЕ ПРИЗЫ</div>
+      <div class="card-list" id="wonPrizesList" style="margin-bottom: 16px;"></div>
+
+      <div class="sec-title" data-i18n="linksTitle">НАВИГАЦИЯ И ПОДДЕРЖКА</div>
+      <div class="card-list">
+        <div class="card" onclick="openTgLink('https://t.me/biomatikzxc')">
+          <h3 data-i18n="channelBtn">Telegram-канал</h3>
+          <p data-i18n="channelDesc">Новости, отзывы и новые промокоды: @biomatikzxc</p>
+        </div>
+        <div class="card" onclick="openTgLink('https://t.me/matikmngr')">
+          <h3 data-i18n="supportBtn">Менеджер и поддержка</h3>
+          <p data-i18n="supportDesc">Помощь с оплатой и выдачей заказов: @matikmngr</p>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <!-- КАРТОЧКА: WATERMARK -->
-  <div class="product-card">
-    <div class="product-title">Готовый Watermark (Водяной знак)</div>
-    <div class="product-desc">
-      Индивидуальный качественный водяной знак под ваш никнейм для защиты роликов и узнаваемости в TikTok/Shorts.
-    </div>
-    <div class="product-footer">
-      <div class="product-price">От 150 ₽ / 150 ⭐️</div>
-      <button class="btn-buy" onclick="openOrder('Watermark под заказ', 'От 150 ₽ / 150 ⭐️')">Заказать</button>
-    </div>
-  </div>
+  <!-- Нижний бар навигации -->
+  <nav class="bottom-nav">
+    <div class="nav-btn active" id="nav-shop" onclick="switchTab('shop')" data-i18n="navShop">МАГАЗИН</div>
+    <div class="nav-btn" id="nav-rewards" onclick="switchTab('rewards')" data-i18n="navRewards">НАГРАДЫ</div>
+    <div class="nav-btn" id="nav-profile" onclick="switchTab('profile')" data-i18n="navProfile">ПРОФИЛЬ</div>
+  </nav>
 
-  <!-- КАРТОЧКА: ОЗВУЧКА -->
-  <div class="product-card">
-    <div class="product-title">Озвучка для видео</div>
-    <div class="product-desc">
-      Качественный дикторский голос под стилистику вашего эдита или ролика.
-    </div>
-    <div class="product-footer">
-      <div class="product-price">100 ₽ / 100 ⭐️</div>
-      <button class="btn-buy" onclick="openOrder('Озвучка для эдита', '100 ₽ / 100 ⭐️')">Заказать</button>
-    </div>
-  </div>
-
-  <div class="section-header">Навигация</div>
-  <div class="nav-links">
-    <a class="nav-btn" href="https://t.me/biomatikzxc">📢 Канал с новостями и отзывами</a>
-    <a class="nav-btn" href="https://t.me/matikmngr">💬 Связь с менеджером (@matikmngr)</a>
-  </div>
-
-  <!-- Всплывающее окно заказа -->
-  <div class="modal" id="orderModal">
-    <div class="modal-content">
-      <div class="modal-title" id="modalItemTitle">Оформление заказа</div>
-      <div class="modal-desc" id="modalItemPrice"></div>
-      
-      <input type="text" id="userComment" class="input-field" placeholder="Ваш никнейм или пожелание к заказу...">
-
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="closeOrder()">Отмена</button>
-        <button class="btn-confirm" onclick="submitOrder()">Подтвердить заказ</button>
+  <!-- Модалка оформления заказа -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-body">
+      <h3 id="chkTitle" style="font-size: 20px; font-weight: 900;">Оформление</h3>
+      <p id="chkPrice" style="font-size: 13px; color: var(--muted); margin-top: 4px;"></p>
+      <input type="text" id="chkInput" class="input-field" placeholder="Ваш никнейм или комментарий...">
+      <div class="modal-row">
+        <button class="btn-ghost" onclick="closeModal('checkoutModal')" data-i18n="cancelBtn">Отмена</button>
+        <button class="btn-white" style="flex: 1;" onclick="submitOrder()" data-i18n="confirmBtn">Перейти к оплате</button>
       </div>
     </div>
   </div>
 
-  <script>
-    let currentItem = '';
-    let currentPrice = '';
-    const tg = window.Telegram?.WebApp;
+  <!-- Модалка промокода -->
+  <div class="modal" id="promoModal">
+    <div class="modal-body">
+      <h3 style="font-size: 20px; font-weight: 900;" data-i18n="promoModalTitle">Активация промокода</h3>
+      <p style="font-size: 12px; color: var(--muted); margin-top: 4px;" data-i18n="promoModalSub">Введите действующий промокод из канала</p>
+      <input type="text" id="promoInput" class="input-field" placeholder="MATIK10">
+      <p id="promoError" style="color: #ff5555; font-size: 12px; margin-bottom: 10px; display: none;"></p>
+      <div class="modal-row">
+        <button class="btn-ghost" onclick="closeModal('promoModal')" data-i18n="cancelBtn">Отмена</button>
+        <button class="btn-white" style="flex: 1;" onclick="applyPromo()" data-i18n="activateBtn">Активировать</button>
+      </div>
+    </div>
+  </div>
 
+  <!-- Модалка платного прокрута -->
+  <div class="modal" id="spinPayModal">
+    <div class="modal-body">
+      <h3 id="spinPayTitle" style="font-size: 20px; font-weight: 900;">Прокрут рулетки</h3>
+      <p id="spinPayDesc" style="font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.45;"></p>
+      <input type="text" id="spinCodeInput" class="input-field" placeholder="Код активации прокрута (если уже оплатили)...">
+      <div class="modal-row">
+        <button class="btn-ghost" onclick="payForSpin()" id="paySpinLinkBtn">Оплатить звёзды</button>
+        <button class="btn-white" style="flex: 1;" onclick="unlockPaidSpin()" data-i18n="unlockSpinBtn">Запустить</button>
+      </div>
+      <button class="btn-ghost" style="width: 100%; margin-top: 8px;" onclick="closeModal('spinPayModal')" data-i18n="cancelBtn">Закрыть</button>
+    </div>
+  </div>
+
+  <!-- Модалка политики и правил рулетки -->
+  <div class="modal" id="policyModal">
+    <div class="modal-body">
+      <h3 style="font-size: 20px; font-weight: 900;" data-i18n="policyModalTitle">Условия и политика рулетки</h3>
+      <div style="font-size: 13px; color: #ccc; line-height: 1.55; margin: 14px 0;" id="policyModalBody">
+        <p>1. <strong>Добровольное участие:</strong> Запуская рулетку (как бесплатный прокрут, так и платный за звёзды), вы подтверждаете, что действуете абсолютно добровольно и осознаёте вероятностный характер выпадения результатов.</p>
+        <br>
+        <p>2. <strong>Отсутствие возврата (No Refund):</strong> Оплаченные и совершённые прокруты рулетки обмену, отмене и возврату средств (включая Telegram Stars и рубли) <u>не подлежат ни при каких обстоятельствах</u>, вне зависимости от выпавшего результата (в том числе сектора «Ничего»).</p>
+        <br>
+        <p>3. <strong>Открытые шансы:</strong> Вероятности фиксированы алгоритмом: 10% — бесплатный цифровой товар (Приват, Озвучка, 3D WD, 2D WD), 20% — персональная скидка (20% или 40%), 70% — сектор без выигрыша («Ничего»).</p>
+        <br>
+        <p>4. <strong>Получение призов:</strong> Выигранные товары автоматически сохраняются в вашем профиле. Их выдача осуществляется владельцем магазина при переходе к оформлению без доплат.</p>
+        <br>
+        <p>5. Запуская вращение барабана, вы автоматически и безоговорочно соглашаетесь с данными правилами и отказываетесь от любых финансовых и иных претензий к магазину.</p>
+      </div>
+      <button class="btn-white" style="width: 100%;" onclick="closeModal('policyModal')" data-i18n="policyAgreeBtn">Принимаю условия</button>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================================
+       КОНФИГ МАГАЗИНА
+       ===================================================================== */
+    const SHOP_CONFIG = {
+      ownerUsername: "matikzxc",
+      managerUsername: "matikmngr",
+
+      baseProducts: {
+        private:  { ru: "Приватный канал MATIK.ZXC", en: "Private Channel MATIK.ZXC", price: 500 },
+        caredit:  { ru: "CarEdit на заказ",          en: "Custom CarEdit",            price: 300 },
+        filmedit: { ru: "Film Edit на заказ",        en: "Custom Film Edit",          price: 400 },
+        collab:   { ru: "Совместный Collab в TikTok",en: "TikTok Collab",             price: 200 }
+      },
+
+      promoCodes: {
+        "MATIK10": 10,
+        "START15": 15,
+        "ZXC20": 20
+      },
+
+      spinUnlockCodes: ["SPIN50", "SPIN100", "SPIN200", "SPIN300", "SPIN400", "SPIN500", "MATIKSPIN"],
+
+      watermarks2D: Array.from({ length: 20 }, (_, i) => ({
+        id: i + 1,
+        nameRu: `2D Watermark #${i + 1}`,
+        nameEn: `2D Watermark #${i + 1}`,
+        price: 150,
+        media: ""
+      })),
+
+      watermarks3D: Array.from({ length: 20 }, (_, i) => ({
+        id: i + 1,
+        nameRu: `3D Watermark #${i + 1}`,
+        nameEn: `3D Watermark #${i + 1}`,
+        price: 300,
+        media: ""
+      })),
+
+      voiceovers: Array.from({ length: 10 }, (_, i) => ({
+        id: i + 1,
+        nameRu: `Озвучка Вариант #${i + 1}`,
+        nameEn: `Voiceover Sample #${i + 1}`,
+        price: 100,
+        audio: ""
+      })),
+
+      avatars: Array.from({ length: 10 }, (_, i) => ({
+        id: i + 1,
+        nameRu: `Аватарка #${i + 1}`,
+        nameEn: `Avatar #${i + 1}`,
+        price: 150,
+        media: ""
+      }))
+    };
+
+    /* ================= СЛОВАРЬ ПЕРЕВОДОВ ================= */
+    const I18N = {
+      ru: {
+        catalogTitle: "КАТАЛОГ ТОВАРОВ",
+        privTitle: "Приватный канал",
+        privDesc: "Полная база для эдиторов: софт, моды, шейки, ЦК, исходники, туториалы без сжатия.",
+        wmDesc: "Готовые и кастомные 2D и 3D водяные знаки с вашим ником. Примеры фото и видео внутри.",
+        wmPrice: "от 150 ₽ / 150 ⭐️",
+        voiceTitle: "Озвучки",
+        voiceDesc: "Качественная озвучка и обработка под ваш эдит. Примеры звучания внутри.",
+        avaTitle: "Аватарки",
+        avaDesc: "Стильные аватарки для TikTok и Telegram под ваш стиль. Галерея работ внутри.",
+        avaPrice: "от 150 ₽ / 150 ⭐️",
+        carDesc: "Монтаж автомобильного эдита с шейками, саунд-дизайном и цветокоррекцией.",
+        filmDesc: "Атмосферный эдит по фильму или сериалу с плавными переходами и ЦК.",
+        collabTitle: "Совместный Collab",
+        collabDesc: "Совместный эдит в TikTok со мной с отметкой вашего аккаунта.",
+        buyBtn: "Купить",
+        openBtn: "Открыть",
+        orderBtn: "Заказать",
+        backBtn: "← Назад в магазин",
+        voiceSamplesTitle: "ПРИМЕРЫ ОЗВУЧЕК (10 СЛОТОВ)",
+        avaSamplesTitle: "ПРИМЕРЫ АВАТАРОК (10 СЛОТОВ)",
+        rouletteHeader: "ИСПЫТАЙ УДАЧУ",
+        rouletteTitle: "Рулетка призов",
+        oddsText: "Шансы: 10% бесплатный товар (Приват, Озвучка, 3D/2D WD) · 20% скидка (20% или 40%) · 70% пусто",
+        policyBtn: "Условия и политика рулетки",
+        policyModalTitle: "Условия и политика рулетки",
+        policyAgreeBtn: "Принимаю условия",
+        promoCardTitle: "Промокоды из канала",
+        promoCardDesc: "Следи за постами в @biomatikzxc и активируй ограниченные коды на скидку.",
+        enterCodeBtn: "Ввести код",
+        wonPrizesTitle: "ВЫИГРАННЫЕ ПРИЗЫ",
+        linksTitle: "НАВИГАЦИЯ И ПОДДЕРЖКА",
+        channelBtn: "Telegram-канал",
+        channelDesc: "Новости, отзывы и новые промокоды: @biomatikzxc",
+        supportBtn: "Менеджер и поддержка",
+        supportDesc: "Помощь с оплатой и выдачей заказов: @matikmngr",
+        navShop: "МАГАЗИН",
+        navRewards: "НАГРАДЫ",
+        navProfile: "ПРОФИЛЬ",
+        cancelBtn: "Отмена",
+        confirmBtn: "Перейти к оплате",
+        promoModalTitle: "Активация промокода",
+        promoModalSub: "Введите действующий промокод из канала",
+        activateBtn: "Активировать",
+        unlockSpinBtn: "Запустить",
+        slotEmpty: "Скоро добавится пример",
+        noPrizes: "Пока нет выигранных призов. Крути рулетку во вкладке «Награды»!",
+        claimBtn: "Забрать приз",
+        guestName: "Покупатель",
+        activeDisc: "Активная скидка:",
+        spinFreeBtn: "Крутить бесплатно",
+        spinPaidBtn: "Крутить за",
+        spinNumLabel: "Прокрут",
+        freeWord: "Бесплатно",
+        promoDefaultTitle: "Ввести промокод",
+        promoDefaultSub: "Секретные коды из Telegram-канала",
+        promoActiveTitle: "Промокод активен:",
+        promoInvalid: "Такого промокода не существует или срок его действия истёк."
+      },
+      en: {
+        catalogTitle: "PRODUCT CATALOG",
+        privTitle: "Private Channel",
+        privDesc: "Full editor base: software, mods, shakes, CC, project files, uncompressed tutorials.",
+        wmDesc: "Ready-made and custom 2D & 3D watermarks with your nickname. Photo & video samples inside.",
+        wmPrice: "from 150 ₽ / 150 ⭐️",
+        voiceTitle: "Voiceovers",
+        voiceDesc: "High-quality voiceover & mixing for your edit. Audio samples inside.",
+        avaTitle: "Avatars",
+        avaDesc: "Stylish avatars for TikTok and Telegram matching your aesthetic. Gallery inside.",
+        avaPrice: "from 150 ₽ / 150 ⭐️",
+        carDesc: "Custom car edit with shakes, sound design, and color correction.",
+        filmDesc: "Atmospheric movie/series edit with smooth transitions and CC.",
+        collabTitle: "Joint Collab",
+        collabDesc: "Joint TikTok edit with me featuring a tag of your account.",
+        buyBtn: "Buy",
+        openBtn: "Open",
+        orderBtn: "Order",
+        backBtn: "← Back to store",
+        voiceSamplesTitle: "VOICEOVER SAMPLES (10 SLOTS)",
+        avaSamplesTitle: "AVATAR SAMPLES (10 SLOTS)",
+        rouletteHeader: "TRY YOUR LUCK",
+        rouletteTitle: "Prize Roulette",
+        oddsText: "Odds: 10% free item (Private, Voice, 3D/2D WM) · 20% discount (20% or 40%) · 70% nothing",
+        policyBtn: "Roulette terms & policy",
+        policyModalTitle: "Roulette terms & policy",
+        policyAgreeBtn: "I agree with terms",
+        promoCardTitle: "Channel Promo Codes",
+        promoCardDesc: "Follow @biomatikzxc and activate limited-time discount codes.",
+        enterCodeBtn: "Enter code",
+        wonPrizesTitle: "WON PRIZES",
+        linksTitle: "LINKS & SUPPORT",
+        channelBtn: "Telegram Channel",
+        channelDesc: "News, reviews, and promo codes: @biomatikzxc",
+        supportBtn: "Manager & Support",
+        supportDesc: "Help with payment & order delivery: @matikmngr",
+        navShop: "SHOP",
+        navRewards: "REWARDS",
+        navProfile: "PROFILE",
+        cancelBtn: "Cancel",
+        confirmBtn: "Proceed to payment",
+        promoModalTitle: "Activate Promo Code",
+        promoModalSub: "Enter an active promo code from the channel",
+        activateBtn: "Activate",
+        unlockSpinBtn: "Spin now",
+        slotEmpty: "Sample coming soon",
+        noPrizes: "No prizes won yet. Spin the roulette in the Rewards tab!",
+        claimBtn: "Claim prize",
+        guestName: "Customer",
+        activeDisc: "Active discount:",
+        spinFreeBtn: "Spin for free",
+        spinPaidBtn: "Spin for",
+        spinNumLabel: "Spin",
+        freeWord: "Free",
+        promoDefaultTitle: "Enter promo code",
+        promoDefaultSub: "Secret codes from the Telegram channel",
+        promoActiveTitle: "Promo active:",
+        promoInvalid: "Invalid or expired promo code."
+      }
+    };
+
+    /* ================= СОСТОЯНИЕ ================= */
+    let lang = "ru";
+    let discountPercent = Number(localStorage.getItem("matik_discount") || 0);
+    let spinCount = Number(localStorage.getItem("matik_spins") || 0);
+    let wonPrizes = JSON.parse(localStorage.getItem("matik_prizes") || "[]");
+    let currentWmType = "2d";
+    let checkoutData = { name: "", price: 0, isFreePrize: false };
+    let isSpinning = false;
+
+    const tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
-      tg.expand(); // Разворачиваем шторку на максимум
+      tg.expand();
     }
 
-    function openOrder(item, price) {
-      currentItem = item;
-      currentPrice = price;
-      document.getElementById('modalItemTitle').innerText = item;
-      document.getElementById('modalItemPrice').innerText = 'Цена: ' + price;
-      document.getElementById('orderModal').style.display = 'flex';
+    function initUserProfile() {
+      const user = tg?.initDataUnsafe?.user;
+      const nameEl = document.getElementById("userName");
+      const handleEl = document.getElementById("userHandle");
+      const avatarEl = document.getElementById("userAvatar");
+
+      if (user) {
+        const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
+        nameEl.innerText = fullName || I18N[lang].guestName;
+        handleEl.innerText = user.username ? `@${user.username} · ID: ${user.id}` : `ID: ${user.id}`;
+        if (user.photo_url) {
+          avatarEl.innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+        } else {
+          avatarEl.innerText = (fullName[0] || "M").toUpperCase();
+        }
+      } else {
+        nameEl.innerText = I18N[lang].guestName;
+      }
+      updateProfileUI();
     }
 
-    function closeOrder() {
-      document.getElementById('orderModal').style.display = 'none';
-      document.getElementById('userComment').value = '';
+    function updateProfileUI() {
+      document.getElementById("userDiscountStatus").innerText = `${I18N[lang].activeDisc} ${discountPercent}%`;
+      const list = document.getElementById("wonPrizesList");
+      if (!wonPrizes.length) {
+        list.innerHTML = `<div class="card"><p style="margin:0;">${I18N[lang].noPrizes}</p></div>`;
+        return;
+      }
+      list.innerHTML = wonPrizes.map((p, idx) => `
+        <div class="card">
+          <div class="card-top">
+            <h3>${lang === "ru" ? p.ru : p.en}</h3>
+            <span class="tag">FREE</span>
+          </div>
+          <button class="btn-white" onclick="claimPrize(${idx})">${I18N[lang].claimBtn}</button>
+        </div>
+      `).join("");
+    }
+
+    function claimPrize(idx) {
+      const prize = wonPrizes[idx];
+      const title = lang === "ru" ? prize.ru : prize.en;
+      checkoutData = { name: `${title} (FREE ROULETTE)`, price: 0, isFreePrize: true };
+      document.getElementById("chkTitle").innerText = title;
+      document.getElementById("chkPrice").innerText = "0 ₽ / 0 ⭐️ (Выигрыш из рулетки)";
+      document.getElementById("checkoutModal").style.display = "flex";
+    }
+
+    function toggleLang() {
+      lang = lang === "ru" ? "en" : "ru";
+      document.getElementById("langRu").classList.toggle("active", lang === "ru");
+      document.getElementById("langEn").classList.toggle("active", lang === "en");
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (I18N[lang][key]) el.innerText = I18N[lang][key];
+      });
+
+      document.getElementById("chkInput").placeholder = lang === "ru"
+        ? "Ваш никнейм или комментарий..."
+        : "Your nickname or comment...";
+
+      updatePolicyBodyText();
+      updateAllPrices();
+      renderWmSlots();
+      renderVoiceSlots();
+      renderAvatarSlots();
+      updateSpinUI();
+      updateProfileUI();
+      buildRouletteStrip();
+    }
+
+    function updatePolicyBodyText() {
+      const body = document.getElementById("policyModalBody");
+      if (lang === "en") {
+        body.innerHTML = `
+          <p>1. <strong>Voluntary Participation:</strong> By spinning the wheel (either the free spin or paid spins with Telegram Stars), you acknowledge and agree that your participation is strictly voluntary and based on probability.</p><br>
+          <p>2. <strong>Strict No-Refund Policy:</strong> All paid spins are final. <u>No refunds or chargebacks will be issued under any circumstances</u>, regardless of the outcome (including landing on "Nothing").</p><br>
+          <p>3. <strong>Transparent Odds:</strong> Probabilities are hardcoded: 10% — free digital item (Private channel, Voiceover, 3D WD, 2D WD), 20% — personal discount (20% or 40%), 70% — no prize ("Nothing").</p><br>
+          <p>4. <strong>Claiming Prizes:</strong> Won items are saved in your Profile. You can claim them via the manager without any extra fee.</p><br>
+          <p>5. By spinning, you unconditionally accept these terms and waive any claims against the store or its owner.</p>
+        `;
+      } else {
+        body.innerHTML = `
+          <p>1. <strong>Добровольное участие:</strong> Запуская рулетку (как бесплатный прокрут, так и платный за звёзды), вы подтверждаете, что действуете абсолютно добровольно и осознаёте вероятностный характер выпадения результатов.</p><br>
+          <p>2. <strong>Отсутствие возврата (No Refund):</strong> Оплаченные и совершённые прокруты рулетки обмену, отмене и возврату средств (включая Telegram Stars и рубли) <u>не подлежат ни при каких обстоятельствах</u>, вне зависимости от выпавшего результата (в том числе сектора «Ничего»).</p><br>
+          <p>3. <strong>Открытые шансы:</strong> Вероятности фиксированы алгоритмом: 10% — бесплатный цифровой товар (Приват, Озвучка, 3D WD, 2D WD), 20% — персональная скидка (20% или 40%), 70% — сектор без выигрыша («Ничего»).</p><br>
+          <p>4. <strong>Получение призов:</strong> Выигранные товары автоматически сохраняются в вашем профиле. Их выдача осуществляется владельцем магазина при переходе к оформлению без доплат.</p><br>
+          <p>5. Запуская вращение барабана, вы автоматически и безоговорочно соглашаетесь с данными правилами и отказываетесь от любых финансовых и иных претензий к магазину.</p>
+        `;
+      }
+    }
+
+    function calcPrice(base) {
+      if (!discountPercent) return base;
+      return Math.max(1, Math.round(base * (1 - discountPercent / 100)));
+    }
+
+    function formatPriceHtml(base) {
+      const finalP = calcPrice(base);
+      if (discountPercent > 0) {
+        return `<span class="old-price">${base}</span>${finalP} ₽ / ${finalP} ⭐️`;
+      }
+      return `${base} ₽ / ${base} ⭐️`;
+    }
+
+    function updateAllPrices() {
+      Object.keys(SHOP_CONFIG.baseProducts).forEach(key => {
+        const el = document.getElementById(`price-${key}`);
+        if (el) el.innerHTML = formatPriceHtml(SHOP_CONFIG.baseProducts[key].price);
+      });
+
+      const voiceEl = document.getElementById("price-voice");
+      if (voiceEl) voiceEl.innerHTML = formatPriceHtml(100);
+
+      const wmSummary = document.getElementById("price-wm-summary");
+      if (wmSummary) {
+        const baseMin = 150;
+        const finalMin = calcPrice(baseMin);
+        wmSummary.innerHTML = discountPercent > 0
+          ? `${lang === "ru" ? "от" : "from"} <span class="old-price">${baseMin}</span>${finalMin} ₽ / ${finalMin} ⭐️`
+          : `${lang === "ru" ? "от" : "from"} ${baseMin} ₽ / ${baseMin} ⭐️`;
+      }
+
+      const avaSummary = document.getElementById("price-ava-summary");
+      if (avaSummary) {
+        const baseMin = 150;
+        const finalMin = calcPrice(baseMin);
+        avaSummary.innerHTML = discountPercent > 0
+          ? `${lang === "ru" ? "от" : "from"} <span class="old-price">${baseMin}</span>${finalMin} ₽ / ${finalMin} ⭐️`
+          : `${lang === "ru" ? "от" : "from"} ${baseMin} ₽ / ${baseMin} ⭐️`;
+      }
+
+      if (discountPercent > 0) {
+        document.getElementById("promoBannerTitle").innerText = `${I18N[lang].promoActiveTitle} -${discountPercent}%`;
+        document.getElementById("promoBadge").innerText = `-${discountPercent}%`;
+      } else {
+        document.getElementById("promoBannerTitle").innerText = I18N[lang].promoDefaultTitle;
+        document.getElementById("promoBannerSub").innerText = I18N[lang].promoDefaultSub;
+        document.getElementById("promoBadge").innerText = "PROMO";
+      }
+
+      renderWmSlots();
+      renderVoiceSlots();
+      renderAvatarSlots();
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+
+      document.getElementById(`screen-${tab}`).classList.add("active");
+      const navBtn = document.getElementById(`nav-${tab}`);
+      if (navBtn) navBtn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function openCategory(cat) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(`screen-${cat}`).classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function switchWmType(type) {
+      currentWmType = type;
+      document.getElementById("tab2d").classList.toggle("active", type === "2d");
+      document.getElementById("tab3d").classList.toggle("active", type === "3d");
+      renderWmSlots();
+    }
+
+    function renderWmSlots() {
+      const container = document.getElementById("wmSlotsContainer");
+      const list = currentWmType === "2d" ? SHOP_CONFIG.watermarks2D : SHOP_CONFIG.watermarks3D;
+      container.innerHTML = list.map(item => {
+        const title = lang === "ru" ? item.nameRu : item.nameEn;
+        const previewHtml = item.media
+          ? (currentWmType === "3d"
+              ? `<video src="${item.media}" autoplay loop muted playsinline></video>`
+              : `<img src="${item.media}" alt="${title}">`)
+          : `<span>${I18N[lang].slotEmpty}</span>`;
+
+        return `
+          <div class="slot-card">
+            <div class="slot-preview">${previewHtml}</div>
+            <div style="font-size: 13px; font-weight: 800;">${title}</div>
+            <div style="font-size: 12px; color: var(--muted); font-weight: 700;">${formatPriceHtml(item.price)}</div>
+            <button class="btn-white" style="width: 100%; padding: 8px; font-size: 12px;"
+              onclick="openCustomCheckout('${title}', ${item.price})">${I18N[lang].orderBtn}</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderVoiceSlots() {
+      const container = document.getElementById("voiceSlotsContainer");
+      container.innerHTML = SHOP_CONFIG.voiceovers.map(item => {
+        const title = lang === "ru" ? item.nameRu : item.nameEn;
+        const audioHtml = item.audio
+          ? `<audio controls src="${item.audio}"></audio>`
+          : `<div style="font-size: 11px; color: var(--muted); margin-bottom: 10px;">${I18N[lang].slotEmpty}</div>`;
+
+        return `
+          <div class="card">
+            <div class="card-top">
+              <h3>${title}</h3>
+              <span class="tag">MP3</span>
+            </div>
+            ${audioHtml}
+            <div class="card-footer" style="margin-top: 10px;">
+              <div class="price-box">${formatPriceHtml(item.price)}</div>
+              <button class="btn-white" onclick="openCustomCheckout('${title}', ${item.price})">${I18N[lang].orderBtn}</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderAvatarSlots() {
+      const container = document.getElementById("avaSlotsContainer");
+      container.innerHTML = SHOP_CONFIG.avatars.map(item => {
+        const title = lang === "ru" ? item.nameRu : item.nameEn;
+        const previewHtml = item.media
+          ? `<img src="${item.media}" alt="${title}">`
+          : `<span>${I18N[lang].slotEmpty}</span>`;
+
+        return `
+          <div class="slot-card">
+            <div class="slot-preview">${previewHtml}</div>
+            <div style="font-size: 13px; font-weight: 800;">${title}</div>
+            <div style="font-size: 12px; color: var(--muted); font-weight: 700;">${formatPriceHtml(item.price)}</div>
+            <button class="btn-white" style="width: 100%; padding: 8px; font-size: 12px;"
+              onclick="openCustomCheckout('${title}', ${item.price})">${I18N[lang].orderBtn}</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openPromoModal() {
+      document.getElementById("promoError").style.display = "none";
+      document.getElementById("promoInput").value = "";
+      document.getElementById("promoModal").style.display = "flex";
+    }
+
+    function applyPromo() {
+      const code = document.getElementById("promoInput").value.trim().toUpperCase();
+      const errEl = document.getElementById("promoError");
+
+      if (SHOP_CONFIG.promoCodes[code]) {
+        discountPercent = Math.max(discountPercent, SHOP_CONFIG.promoCodes[code]);
+        localStorage.setItem("matik_discount", discountPercent);
+        updateAllPrices();
+        updateProfileUI();
+        closeModal("promoModal");
+      } else {
+        errEl.innerText = I18N[lang].promoInvalid;
+        errEl.style.display = "block";
+      }
+    }
+
+    function openPolicyModal() {
+      updatePolicyBodyText();
+      document.getElementById("policyModal").style.display = "flex";
+    }
+
+    function openCheckout(key) {
+      const item = SHOP_CONFIG.baseProducts[key];
+      const title = lang === "ru" ? item.ru : item.en;
+      openCustomCheckout(title, item.price);
+    }
+
+    function openCustomCheckout(title, basePrice) {
+      const finalPrice = calcPrice(basePrice);
+      checkoutData = { name: title, price: finalPrice, isFreePrize: false };
+      document.getElementById("chkTitle").innerText = title;
+      document.getElementById("chkPrice").innerText = `${finalPrice} ₽ / ${finalPrice} ⭐️`;
+      document.getElementById("checkoutModal").style.display = "flex";
     }
 
     function submitOrder() {
-      const comment = document.getElementById('userComment').value || 'Без комментария';
-      
-      // Формируем прямую ссылку на переписку с тобой с уже вписанным заказом
-      const messageText = `Привет! Хочу оформить заказ:\n📦 Товар: ${currentItem}\n💰 Цена: ${currentPrice}\n💬 Пожелание/ник: ${comment}`;
-      const url = `https://t.me/matikzxc?text=${encodeURIComponent(messageText)}`;
-
-      if (tg) {
-        tg.openTelegramLink(url);
-      } else {
-        window.location.href = url;
-      }
-
-      closeOrder();
+      const note = document.getElementById("chkInput").value.trim() || (lang === "ru" ? "Без комментария" : "No comment");
+      const discText = checkoutData.isFreePrize ? "FREE PRIZE" : `${discountPercent}%`;
+      const msg = `Привет! Хочу оформить заказ в MATIKZXC SHOP:\n📦 Товар: ${checkoutData.name}\n💰 Итого: ${checkoutData.price} ₽ / ⭐️ (Скидка: ${discText})\n💬 Ник / Детали: ${note}`;
+      openTgLink(`https://t.me/${SHOP_CONFIG.ownerUsername}?text=${encodeURIComponent(msg)}`);
+      closeModal("checkoutModal");
     }
+
+    function openTgLink(url) {
+      if (tg) tg.openTelegramLink(url);
+      else window.open(url, "_blank");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    function openInfoModal() {
+      alert(lang === "ru"
+        ? "MATIKZXC OFFICIAL STORE — магазин водяных знаков, озвучек, аватарок и привата."
+        : "MATIKZXC OFFICIAL STORE — watermarks, voiceovers, avatars & private channel.");
+    }
+
+    const ROULETTE_LOTS = [
+      { id: "nothing1", type: "nothing", ru: "Ничего",            en: "Nothing" },
+      { id: "free_priv",type: "free",    ru: "Бесплатный Приват", en: "Free Private" },
+      { id: "nothing2", type: "nothing", ru: "Ничего",            en: "Nothing" },
+      { id: "disc_20",  type: "disc",    val: 20, ru: "Скидка 20% на всё", en: "20% Off Everything" },
+      { id: "nothing3", type: "nothing", ru: "Ничего",            en: "Nothing" },
+      { id: "free_3d",  type: "free",    ru: "Бесплатный 3D WD",  en: "Free 3D Watermark" },
+      { id: "free_voice",type:"free",    ru: "Бесплатная Озвучка",en: "Free Voiceover" },
+      { id: "nothing4", type: "nothing", ru: "Ничего",            en: "Nothing" },
+      { id: "disc_40",  type: "disc",    val: 40, ru: "Скидка 40% на всё", en: "40% Off Everything" },
+      { id: "free_2d",  type: "free",    ru: "Бесплатный 2D WD",  en: "Free 2D Watermark" }
+    ];
+
+    function getNextSpinCost() {
+      const costs = [0, 50, 100, 200, 300, 400, 500];
+      return spinCount < costs.length ? costs[spinCount] : 500;
+    }
+
+    function updateSpinUI() {
+      const cost = getNextSpinCost();
+      const label = document.getElementById("spinCountLabel");
+      const btn = document.getElementById("spinBtn");
+
+      if (cost === 0) {
+        label.innerText = `${I18N[lang].spinNumLabel} #1 — ${I18N[lang].freeWord}`;
+        btn.innerText = I18N[lang].spinFreeBtn;
+      } else {
+        label.innerText = `${I18N[lang].spinNumLabel} #${spinCount + 1} — ${cost} ⭐️`;
+        btn.innerText = `${I18N[lang].spinPaidBtn} ${cost} ⭐️`;
+      }
+    }
+
+    function buildRouletteStrip() {
+      const track = document.getElementById("rouletteTrack");
+      let html = "";
+      for (let r = 0; r < 6; r++) {
+        ROULETTE_LOTS.forEach(lot => {
+          const cls = lot.type === "free" ? "rare" : (lot.type === "disc" ? "disc" : "");
+          html += `<div class="roulette-item ${cls}">${lang === "ru" ? lot.ru : lot.en}</div>`;
+        });
+      }
+      track.innerHTML = html;
+      track.style.transition = "none";
+      track.style.transform = "translateX(0px)";
+    }
+
+    function pickWinningLot() {
+      const roll = Math.random() * 100;
+      if (roll < 10) {
+        const freeLots = ROULETTE_LOTS.filter(l => l.type === "free");
+        return freeLots[Math.floor(Math.random() * freeLots.length)];
+      } else if (roll < 30) {
+        const discLots = ROULETTE_LOTS.filter(l => l.type === "disc");
+        return Math.random() < 0.7 ? discLots[0] : discLots[1];
+      } else {
+        const nothingLots = ROULETTE_LOTS.filter(l => l.type === "nothing");
+        return nothingLots[Math.floor(Math.random() * nothingLots.length)];
+      }
+    }
+
+    function handleSpin() {
+      if (isSpinning) return;
+      const cost = getNextSpinCost();
+      if (cost === 0) {
+        runRouletteAnimation();
+      } else {
+        document.getElementById("spinPayTitle").innerText = `${I18N[lang].spinNumLabel} #${spinCount + 1} — ${cost} ⭐️`;
+        document.getElementById("spinPayDesc").innerText = lang === "ru"
+          ? `Стоимость прокрута: ${cost} Telegram Stars. Нажмите «Оплатить звёзды», чтобы получить код активации, или введите его ниже.`
+          : `Spin cost: ${cost} Telegram Stars. Tap "Pay Stars" to get an activation code, or enter it below.`;
+        document.getElementById("spinPayModal").style.display = "flex";
+      }
+    }
+
+    function payForSpin() {
+      const cost = getNextSpinCost();
+      const msg = `Привет! Хочу оплатить прокрут рулетки #${spinCount + 1} за ${cost} ⭐️`;
+      openTgLink(`https://t.me/${SHOP_CONFIG.ownerUsername}?text=${encodeURIComponent(msg)}`);
+    }
+
+    function unlockPaidSpin() {
+      const code = document.getElementById("spinCodeInput").value.trim().toUpperCase();
+      if (SHOP_CONFIG.spinUnlockCodes.includes(code)) {
+        document.getElementById("spinCodeInput").value = "";
+        closeModal("spinPayModal");
+        runRouletteAnimation();
+      } else {
+        alert(lang === "ru" ? "Неверный код прокрута!" : "Invalid spin code!");
+      }
+    }
+
+    function runRouletteAnimation() {
+      isSpinning = true;
+      const winLot = pickWinningLot();
+      const winIdx = ROULETTE_LOTS.findIndex(l => l.id === winLot.id);
+
+      const track = document.getElementById("rouletteTrack");
+      const viewport = document.querySelector(".roulette-viewport");
+      const itemWidth = 128;
+      const targetIndex = 4 * ROULETTE_LOTS.length + winIdx;
+      const centerOffset = viewport.offsetWidth / 2 - itemWidth / 2;
+      const targetX = -(targetIndex * itemWidth - centerOffset);
+
+      track.style.transition = "none";
+      track.style.transform = "translateX(0px)";
+      void track.offsetWidth;
+
+      track.style.transition = "transform 3.8s cubic-bezier(0.12, 0.85, 0.18, 1)";
+      track.style.transform = `translateX(${targetX}px)`;
+
+      setTimeout(() => {
+        isSpinning = false;
+        spinCount += 1;
+        localStorage.setItem("matik_spins", spinCount);
+        updateSpinUI();
+
+        const title = lang === "ru" ? winLot.ru : winLot.en;
+        if (winLot.type === "free") {
+          wonPrizes.push(winLot);
+          localStorage.setItem("matik_prizes", JSON.stringify(wonPrizes));
+          updateProfileUI();
+          alert(lang === "ru" ? `Поздравляем! Вы выиграли: ${title}. Приз добавлен в Профиль!` : `Congrats! You won: ${title}. Added to your Profile!`);
+        } else if (winLot.type === "disc") {
+          discountPercent = Math.max(discountPercent, winLot.val);
+          localStorage.setItem("matik_discount", discountPercent);
+          updateAllPrices();
+          updateProfileUI();
+          alert(lang === "ru" ? `Поздравляем! Выпала скидка ${winLot.val}% на весь каталог!` : `Congrats! You won a ${winLot.val}% discount!`);
+        } else {
+          alert(lang === "ru" ? "В этот раз выпало: Ничего. Попробуй ещё!" : "Result: Nothing. Try again!");
+        }
+      }, 3950);
+    }
+
+    const canvas = document.getElementById("snowCanvas");
+    const ctx = canvas.getContext("2d");
+    let flakes = [];
+
+    function resizeSnow() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeSnow);
+    resizeSnow();
+
+    for (let i = 0; i < 45; i++) {
+      flakes.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.8 + 0.6,
+        vy: Math.random() * 1.1 + 0.4,
+        vx: Math.random() * 0.6 + 0.2
+      });
+    }
+
+    function animateSnow() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+      ctx.beginPath();
+      flakes.forEach(f => {
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        f.y += f.vy;
+        f.x += f.vx;
+        if (f.y > canvas.height) { f.y = -5; f.x = Math.random() * canvas.width; }
+        if (f.x > canvas.width) f.x = 0;
+      });
+      ctx.fill();
+      requestAnimationFrame(animateSnow);
+    }
+    animateSnow();
+
+    initUserProfile();
+    updateAllPrices();
+    updateSpinUI();
+    buildRouletteStrip();
   </script>
 </body>
 </html>
