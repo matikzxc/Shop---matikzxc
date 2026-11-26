@@ -2,7 +2,7 @@ const { Telegraf, Markup } = require('telegraf');
 
 // ==========================================
 // 9133573433:AAFyVW7EbGBu8EwNQM8V8jXUR_o5c2qksu8:
-const BOT_TOKEN = '9133573433:AAEQbkMF2X_5cFUbqC-ReDzeqIy_JExM1mU';
+const BOT_TOKEN = '9133573433:AAFyVW7EbGBu8EwNQM8V8jXUR_o5c2qksu8';
 // ==========================================
 
 const WEB_APP_URL = 'https://matikzxc.github.io/Shop---matikzxc/';
