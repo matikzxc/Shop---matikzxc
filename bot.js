@@ -80,11 +80,27 @@ bot.command('paysupport', (ctx) => {
   ));
 });
 
-cleanAndSetCommands().then(() => {
-  bot.launch().then(() => {
-    console.log('>>> [УСПЕХ] БОТ ПОЛНОСТЬЮ ЗАПУЩЕН И ОТВЕЧАЕТ НА ВСЕ КОМАНДЫ!');
-  });
-});
+async function cleanAndSetCommands() {
+  const scopes = [
+    { type: 'default' },
+    { type: 'all_private_chats' },
+    { type: 'all_group_chats' },
+    { type: 'all_chat_administrators' }
+  ];
 
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+  for (const scope of scopes) {
+    await bot.telegram.deleteMyCommands({ scope });
+    await bot.telegram.deleteMyCommands({ scope, language_code: 'ru' });
+  }
+
+  const commands = [
+    { command: 'start', description: 'Главное меню и магазин' },
+    { command: 'terms', description: 'Условия магазина' },
+    { command: 'paysupport', description: 'Помощь с покупкой' }
+  ];
+
+  await bot.telegram.setMyCommands(commands);
+  await bot.telegram.setMyCommands(commands, { language_code: 'ru' });
+
+  console.log('Списки команд очищены и обновлены');
+}
