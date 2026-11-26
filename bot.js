@@ -104,3 +104,9 @@ async function cleanAndSetCommands() {
 
   console.log('Списки команд очищены и обновлены');
 }
+cleanAndSetCommands()
+  .then(() => bot.launch())
+  .catch(console.error);
+
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'));
