@@ -1,7 +1,7 @@
 const { Telegraf, Markup } = require('telegraf');
 
 // ==========================================
-// ВСТАВЬ СВОЙ ТОКЕН ВНУТРИ ОДИНАРНЫХ КАВЫЧЕК:
+// 9133573433:AAFyVW7EbGBu8EwNQM8V8jXUR_o5c2qksu8:
 const BOT_TOKEN = '9133573433:AAEQbkMF2X_5cFUbqC-ReDzeqIy_JExM1mU';
 // ==========================================
 
