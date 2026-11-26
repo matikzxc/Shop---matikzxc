@@ -105,8 +105,12 @@ async function cleanAndSetCommands() {
   console.log('Списки команд очищены и обновлены');
 }
 cleanAndSetCommands()
-  .then(() => bot.launch())
-  .catch(console.error);
+  .catch(err => console.error('Не удалось обновить список команд:', err))
+  .finally(() => {
+    bot.launch()
+      .then(() => console.log('Бот запущен'))
+      .catch(err => console.error('Не удалось запустить бота:', err));
+  });
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
